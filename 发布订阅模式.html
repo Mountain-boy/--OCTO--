@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			/*
+				事件监听
+					绑定的是事件监听器
+
+				在这个模式中需要三个部分组成：
+				1. 发布者
+				2. 订阅者
+				3. 状态
+
+
+			*/
+			var salesOffices = {};  //售楼处
+
+			salesOffices.book = {};  //记录电话号码的
+
+			//订阅
+			salesOffices.subscribe = function (statuss,handle){
+				//看一下状态有没有？
+				// 没有对应的数组，那么定义空数组
+				if( !salesOffices.book[statuss] ){
+					salesOffices.book[statuss] = [];
+				}
+
+				salesOffices.book[statuss].push(handle)
+			}
+
+			//发布
+
+			salesOffices.publish = function (statuss){
+				//执行订阅的函数
+				var books = salesOffices.book[statuss];
+				//判断拿到的订阅者是否为空，不为空就通知
+				if( books ){
+					for( var i = 0; i < books.length; i++ ){
+						books[i]();
+					}
+				}
+			}
+
+			salesOffices.subscribe('100M',function (){
+				console.log("通知了小明");
+			})
+			salesOffices.subscribe('100M',function (){
+				console.log("通知了小李");
+			})
+			salesOffices.subscribe('200M',function (){
+				console.log("通知了小红");	
+			})
+
+			
+
+			//售楼处有楼了，通知那些订阅者
+			salesOffices.publish("500M");
+
+
+			document.addEventListener("click",function (){
+				console.log(11);	
+			})
+
+		</script>
+	</head>
+
+	<body>
+		
+	</body>
+</html>
